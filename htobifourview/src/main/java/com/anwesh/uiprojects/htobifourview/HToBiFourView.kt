@@ -188,6 +188,28 @@ class HToBiFourView(ctx : Context) : View(ctx) {
         }
     }
 
+    data class Renderer(var view : HToBiFourView) {
+
+        private val htbf : HToBiFour = HToBiFour(0)
+        private val animator : Animator = Animator(view)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            htbf.draw(canvas, paint)
+            animator.animate {
+                htbf.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            htbf.startUpdating {
+                animator.start()
+            }
+        }
+    }
+
     companion object {
         fun create(activity : Activity) : HToBiFourView {
             val view : HToBiFourView = HToBiFourView(activity)
