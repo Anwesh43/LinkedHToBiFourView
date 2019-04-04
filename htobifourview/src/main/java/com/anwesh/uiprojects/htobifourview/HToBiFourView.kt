@@ -164,6 +164,30 @@ class HToBiFourView(ctx : Context) : View(ctx) {
         }
     }
 
+    data class HToBiFour(var i : Int) {
+
+        private val root : HTBFNode = HTBFNode(0)
+        private var curr : HTBFNode = root
+        private var dir : Int = 1
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            root.draw(canvas, paint)
+        }
+
+        fun update(cb : (Int, Float) -> Unit) {
+            curr.update {i, scl ->
+                curr = curr.getNext(dir) {
+                    dir *= -1
+                }
+                cb(i, scl)
+            }
+        }
+
+        fun startUpdating(cb : () -> Unit) {
+            curr.startUpdating(cb)
+        }
+    }
+
     companion object {
         fun create(activity : Activity) : HToBiFourView {
             val view : HToBiFourView = HToBiFourView(activity)
