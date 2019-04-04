@@ -17,9 +17,10 @@ val lines : Int = 2
 val scGap : Float = 0.05f
 val scDiv : Double = 0.51
 val strokeFactor : Int = 90
-val sizeFactor : Int = 90
+val sizeFactor : Float = 2.9f
 val foreColor : Int = Color.parseColor("#283593")
 val backColor : Int = Color.parseColor("#BDBDBD")
+val delay : Long = 20
 
 fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
@@ -43,14 +44,14 @@ fun Canvas.drawHTBFNode(i : Int, scale : Float, paint : Paint) {
     translate(w /2 , gap * (i + 1))
     for (j in 0..(lines - 1)) {
         val scj : Float = sc2.divideScale(j, lines)
-        val x : Float = (size / 2).updateDFromS(w / 2 - size / 2, scj)
+        val x : Float = (size / 2).updateDFromS(w / 2 - size, scj)
         save()
         scale(1f - 2 * j, 1f)
-        translate(size / 2 + (w / 2 - size / 2), 0f)
-        rotate(90f * scj)
+        translate(x, 0f)
+        rotate(180f * scj)
         drawLine(0f, -size, 0f, size, paint)
         drawLine(0f, 0f, -size / 2, 0f, paint)
-        drawLine(-size / 2, 0f, -size / 2, (size / 2) * sc1, paint)
+        drawLine(-size / 2, 0f, -size / 2, (size) * sc1, paint)
         restore()
     }
     restore()
@@ -100,7 +101,7 @@ class HToBiFourView(ctx : Context) : View(ctx) {
             if (animated) {
                 cb()
                 try {
-                    Thread.sleep(50)
+                    Thread.sleep(delay)
                     view.invalidate()
                 } catch(ex : Exception) {
 
