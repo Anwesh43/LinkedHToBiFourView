@@ -27,4 +27,31 @@ fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale
 fun Float.scaleFactor() : Float = Math.floor(this / scDiv).toFloat()
 fun Float.mirrorValue(a : Int, b : Int) : Float = (1 - scaleFactor()) * a.inverse() + scaleFactor() * b.inverse()
 fun Float.divideValue(dir : Float, a : Int, b : Int) : Float = mirrorValue(a, b) * scGap * dir
+fun Float.updateDFromS(d : Float, scale : Float) : Float = this + (d - this) * scale
 
+fun Canvas.drawHTBFNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    val gap : Float = h / (nodes + 1)
+    val size : Float = gap / sizeFactor
+    val sc1 : Float = scale.divideScale(0, lines)
+    val sc2 : Float = scale.divideScale(1, lines)
+    paint.color = foreColor
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
+    paint.strokeCap = Paint.Cap.ROUND
+    save()
+    translate(w /2 , gap * (i + 1))
+    for (j in 0..(lines - 1)) {
+        val scj : Float = sc2.divideScale(j, lines)
+        val x : Float = (size / 2).updateDFromS(w / 2 - size / 2, scj)
+        save()
+        scale(1f - 2 * j, 1f)
+        translate(size / 2 + (w / 2 - size / 2), 0f)
+        rotate(90f * scj)
+        drawLine(0f, -size, 0f, size, paint)
+        drawLine(0f, 0f, -size / 2, 0f, paint)
+        drawLine(-size / 2, 0f, -size / 2, (size / 2) * sc1, paint)
+        restore()
+    }
+    restore()
+}
