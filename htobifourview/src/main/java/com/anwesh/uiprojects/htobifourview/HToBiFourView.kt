@@ -67,9 +67,17 @@ class HToBiFourView(ctx : Context) : View(ctx) {
     override fun onTouchEvent(event : MotionEvent) : Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                
+
             }
         }
         return true
+    }
+
+    companion object {
+        fun create(activity : Activity) : HToBiFourView {
+            val view : HToBiFourView = HToBiFourView(activity)
+            activity.setContentView(view)
+            return view
+        }
     }
 }
