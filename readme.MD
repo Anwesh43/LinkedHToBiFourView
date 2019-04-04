@@ -7,4 +7,4 @@
 
 ### Demo
 
-<video src="https://github.com/Anwesh43/LinkedHToBiFourView/blob/master/demo/htobifourview.mp4" width="300px" height="500px">
+<img src="https://github.com/Anwesh43/LinkedHToBiFourView/blob/master/demo/htobifourview.gif" width="300px" height="500px">
